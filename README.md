@@ -1,10 +1,1 @@
-
-## This is a Online Job Fair Reservation project
-This applications is built by Phanthawas Jirakiattkun, Pitchsinee Lertpanjasri and Theerat Punyasit, students from department of Computer Engineering and Digital Technology, Chulalongkorn University. 
-
-The project is for 2110503 (2023/2) Software Development Practice.
-## Tools and Frameworks
-NodeJS, ExpressJS,JSONWebToken, BcryptJS, Postman and Github
-
-## Phanthawas J. Branch for Appointment & Authenticaion functions
-Branch for development of Appointment & Authenticaion functions
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/q4BUIsBT)
