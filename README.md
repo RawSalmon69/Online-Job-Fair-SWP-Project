@@ -5,3 +5,6 @@ This applications is built by Phanthawas Jirakiattkun, Pitchsinee Lertpanjasri a
 The project is for 2110503 (2023/2) Software Development Practice.
 ## Tools and Frameworks
 NodeJS, ExpressJS,JSONWebToken, BcryptJS, Postman and Github
+
+## Phanthawas J. Branch for Appointment & Authenticaion functions
+Branch for development of Appointment & Authenticaion functions
