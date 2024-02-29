@@ -1,5 +1,5 @@
 const Appointment = require('../models/Appointment');
-const Hospital = require('../models/Hospital');
+const Company = require('../models/Company');
 
 //@desc         Get all appointments
 //@route        GET /api/v1/appointments
@@ -9,19 +9,19 @@ exports.getAppointments = async (req,res,next) => {
     
     if(req.user.role !== 'admin'){
         query = Appointment.find({user: req.user.id}).populate({
-            path: 'hospital',
-            select: 'name province tel'
+            path: 'company',
+            select: 'name address website description tel'
         });
     }else{
-        if(req.params.hospitalId){
+        if(req.params.companyId){
             query = Appointment.find().populate({
-                path: 'hospital',
-                select: 'name province tel'
+                path: 'company',
+                select: 'name address website description tel'
             });
         }else{
             query = Appointment.find().populate({
-                path: 'hospital',
-                select: 'name province tel'
+                path: 'company',
+                select: 'name address website description tel'
             });
         }
     }
@@ -44,8 +44,8 @@ exports.getAppointments = async (req,res,next) => {
 exports.getAppointment = async (req,res,next) => {
     try{
         const appointment = await Appointment.findById(req.params.id).populate({
-            path: 'hospital',
-            select: 'name province tel'
+            path: 'company',
+            select: 'name address website description tel'
         });
         if(!appointment){
             return res.status(400).json({success: false, messsage: 'No appointment with the id of ' + req.params.id});
@@ -61,15 +61,16 @@ exports.getAppointment = async (req,res,next) => {
 };
 
 //@desc         Add appointment
-//@route        POST /api/v1/hospitals/:hospitalId/appointment
+//@route        POST /api/v1/companies/:companyId/appointment
 //@access       Private
 exports.addAppointment = async (req,res,next) => {
     try{
-        req.body.hospital = req.params.hospitalId;
-        const hospital = await Hospital.findById(req.params.hospitalId);
+        console.log(req.body);
+        req.body.company = req.params.companyId;
+        const company = await Company.findById(req.params.companyId);
 
-        if( !hospital ){
-            return res.status(400).json({success: false, messsage: 'No hospital with the id of ' + req.params.hospitalId});
+        if( !company ){
+            return res.status(400).json({success: false, messsage: 'No company with the id of ' + req.params.companyId});
         }
 
         req.body.user = req.user.id;
@@ -77,10 +78,16 @@ exports.addAppointment = async (req,res,next) => {
         if(existedAppointments.length >=3 && req.user.role !== 'admin'){
             return res.status(400).json({success: false, messsage: 'The user with ID ' + req.user.id + ' has already made 3 appointments'});
         }
+        const d1 = Date.parse("2022-05-10T17:00:00.000Z");
+        const d2 = Date.parse("2022-05-13T17:23:59.999Z");
+
+        if(new Date(req.body.apptDate) < d1 || new Date(req.body.apptDate) > d2){
+            return res.status(400).json({success: false, messsage: 'The appointment date is not between 2022-05-10 and 2022-05-13'});
+        }
 
         const appointment = await Appointment.create(req.body);
 
-        res.status(200).json({
+        res.status(201).json({
             success: true,
             data: appointment
         });
@@ -91,7 +98,7 @@ exports.addAppointment = async (req,res,next) => {
 };
 
 //@desc         Update appointment
-//@route        PUT /api/v1/hospitals/:hospitalId/appointment
+//@route        PUT /api/v1/companies/:companyId/appointment
 //@access       Private
 exports.updateAppointment = async (req,res,next) => {
     try{
@@ -117,7 +124,7 @@ exports.updateAppointment = async (req,res,next) => {
 };
 
 //@desc         Delete appointment
-//@route        DELETE /api/v1/hospitals/:hospitalId/appointment
+//@route        DELETE /api/v1/companies/:companyId/appointment
 //@access       Private
 exports.deleteAppointment = async (req,res,next) => {
     try{

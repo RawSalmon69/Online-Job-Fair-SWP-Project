@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 
-const hospitals = require('./routes/hospitals');
+const companies = require('./routes/companies');
 const auth = require('./routes/auth');
 const appointments = require('./routes/appointments');
 const connectDB = require('./config/db');
@@ -37,7 +37,7 @@ app.use(cors());
 //cookie parser
 app.use(cookieParser());
 //routing
-app.use('/api/v1/hospitals', hospitals);
+app.use('/api/v1/companies', companies);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/appointments', appointments);
 
@@ -48,9 +48,9 @@ const swaggerOptions = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'Library API',
+            title: 'Online Job Fair API',
             version: '1.0.0',
-            description: 'A simple Express VacQ API'
+            description: 'A simple Express Online Job Fair API'
         },
         servers: [
             {
@@ -67,7 +67,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 const PORT = process.env.PORT || 5000;
 
 connectDB();
-const server = app.listen(PORT, console.log('Server running in ', process.env.NODE_ENV, ' mode on port ', PORT));
+const server = app.listen(PORT, console.log('Online Job Fair server running in ', process.env.NODE_ENV, ' mode on port ', PORT));
 
 //handle unhandled promise rejections
 process.on('unhandledRejection', (err,promise) => {

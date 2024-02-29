@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add a name']
     },
+    tel: {
+        type: String,
+        required: [true, 'Please add an telephone number']
+    },
     email:{
         type: String,
         required: [true, 'Please add an email'],
@@ -35,7 +39,7 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.pre('save', async function(nexy){
+UserSchema.pre('save', async function(next){
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password,salt);
 });
