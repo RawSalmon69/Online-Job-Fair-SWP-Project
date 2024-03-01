@@ -32,7 +32,6 @@ exports.register = async (req,res,next) => {
         //@desc     old token method
         // const token = user.getSignedJwtToken();
         // res.status(200).json({success : true, token});
-        console.log("check 1");
         sendTokenResponse(user,200,res);
 
     }catch (err) {
