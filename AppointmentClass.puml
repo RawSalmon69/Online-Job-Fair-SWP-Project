@@ -1,0 +1,24 @@
+@startuml
+
+class Appointment {
+    _id: ObjectId
+    name: String
+}
+
+class Company {
+    _id: ObjectId
+    name: String
+}
+
+class UserController {
+    + getAppointments(req, res, next)
+    + getAppointment(req, res, next)
+    + addAppointment(req, res, next)
+    + updateAppointment(req, res, next)
+    + deleteAppointment(req, res, next)
+}
+
+UserController *-- Appointment : uses
+UserController *-- Company : uses
+
+@enduml
