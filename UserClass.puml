@@ -1,0 +1,21 @@
+@startuml
+
+class User {
+    _id: ObjectId
+    name: String
+    tel: String
+    email: String
+    password: String
+    role: String
+}
+
+class AuthController {
+    + register(req, res, next)
+    + login(req, res, next)
+    + getMe(req, res, next)
+    + logout(req, res, next)
+}
+
+AuthController --> User : uses
+
+@enduml
