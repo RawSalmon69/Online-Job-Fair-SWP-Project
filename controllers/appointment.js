@@ -75,16 +75,19 @@ exports.addAppointment = async (req,res,next) => {
 
         req.body.user = req.user.id;
         const existedAppointments = await Appointment.find({user: req.user.id});
-        if(existedAppointments.length >=3 && req.user.role !== 'admin'){
-            return res.status(400).json({success: false, messsage: 'The user with ID ' + req.user.id + ' has already made 3 appointments'});
-        }
+
         const d1 = Date.parse("2022-05-10T17:00:00.000Z");
         const d2 = Date.parse("2022-05-13T17:23:59.999Z");
 
         if(new Date(req.body.apptDate) < d1 || new Date(req.body.apptDate) > d2){
-            return res.status(400).json({success: false, messsage: 'The appointment date is not between 2022-05-10 and 2022-05-13'});
+            return res.status(403).json({success: false, messsage: 'The appointment date is not between 2022-05-10 and 2022-05-13'});
         }
 
+        if(existedAppointments.length >=3){
+            if(req.user.role !== 'admin')
+            return res.status(401).json({success: false, messsage: 'The user with ID ' + req.user.id + ' has already made 3 appointments'});
+        }
+        
         const appointment = await Appointment.create(req.body);
 
         res.status(201).json({
@@ -108,7 +111,8 @@ exports.updateAppointment = async (req,res,next) => {
             return res.status(404).json({success: false, messsage: 'No appointment with the id of ' + req.params.id});
         }
 
-        if(appointment.user.toString() !== req.user.id && req.user.role !== 'admin'){
+        if(appointment.user.toString() !== req.user.id){
+            if(req.user.role !== 'admin')
             return res.status(401).json({success: false, messsage: 'User ' + req.user.id + ' is not authorized to update this appointment'});
         }
 
@@ -134,7 +138,8 @@ exports.deleteAppointment = async (req,res,next) => {
             return res.status(404).json({success: false, messsage: 'No appointment with the id of ' + req.params.id});
         }
 
-        if(appointment.user.toString() !== req.user.id && req.user.role !== 'admin'){
+        if(appointment.user.toString() !== req.user.id ){
+            if(req.user.role !== 'admin')
             return res.status(401).json({success: false, messsage: 'User ' + req.user.id + ' is not authorized to delete this appointment'});
         }
 
