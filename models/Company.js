@@ -14,11 +14,11 @@ const CompanySchema = new mongoose.Schema({
     },
     website:{
         type: String,
-        required: [true, 'Please add an address']
+        required: [true, 'Please add an website']
     },
     description:{
         type: String,
-        required: [true, 'Please add an address']
+        required: [true, 'Please add an description']
     },
     tel: {
         type: String
